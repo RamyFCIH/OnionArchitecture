@@ -1,4 +1,6 @@
-﻿using Core.Interfaces;
+﻿using AutoMapper;
+using Core.Dtos;
+using Core.Interfaces;
 using Core.Specifications;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -15,9 +17,11 @@ namespace OnionArchitecture.Controllers
     {
 
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
-        public TestController(IUnitOfWork unitOfWork)
+        public TestController(IUnitOfWork unitOfWork,IMapper mapper)
         {
+            _mapper= mapper;
             _unitOfWork = unitOfWork;
         }
 
@@ -34,7 +38,7 @@ namespace OnionArchitecture.Controllers
         {
             var spec = new BookWithAuthorAndPublisherSpecification(id);
             var response = await _unitOfWork.Books.GetEntityWithSpec(spec);
-            return Ok(response);
+            return Ok(_mapper.Map<Book, BookAuthorDto>(response));
         }
 
         [HttpPost]

@@ -15,6 +15,8 @@ namespace Onion.Core.Models
 
         public int AuthorId { get; set; }
 
+        public string ImageUrl { get; set; }
+
         public int? PublisherId { get; set; }
 
         [ForeignKey(nameof(AuthorId))]
